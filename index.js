@@ -52,15 +52,17 @@ function register (opts, fn) {
    * A getter function that will load some data or return it from a cache.
    */
   _getters[name] = Object.defineProperty(function getter (ctx, args) {
+    var key = name + JSON.stringify(args)
+    var cache = ctx.session
+    args = [ctx].concat(args)
+
     return Promise
-      .resolve(expire && expire.apply(opts, [ctx].concat(args)))
+      .resolve(expire && expire.apply(opts, args))
       .then(function checkCache (expired) {
-        var key = name + JSON.stringify(args)
-        var cache = ctx.session
         var exists = !expired && cache.has(key)
         return Promise
           // Check if we can used the cached data or load some new data.
-          .resolve(exists ? cache.get(key) : fn.apply(opts, ctx, args))
+          .resolve(exists ? cache.get(key) : fn.apply(opts, args))
           .then(function setLocals (data) {
             // If this was a new key we cache it.
             if (!exists) {
