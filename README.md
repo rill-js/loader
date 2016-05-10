@@ -64,13 +64,7 @@ This function will be cached and automatically set it's data on `ctx.locals` whe
 	ttl: 3000,
 
 	// If true the `ttl` option will be reset every time the data is loaded.
-	refresh: false,
-
-	// An optional function that can return true (or a promise that resolves to true) to delete the cached data.
-	expire: (ctx, ...)=> {
-		this; //-> The `this` will be the options object.
-		return myApi.checkIfStale(ctx.req.params.id);
-	}
+	refresh: false
 }
 ```
 

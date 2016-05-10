@@ -34,14 +34,9 @@ function register (opts, fn) {
   }
 
   var name = opts.name
-  var expire = opts.expire
 
   if (typeof name !== 'string') {
     throw new TypeError('@rill/load: Register options must have a name property.')
-  }
-
-  if (expire && typeof expire !== 'function') {
-    throw new TypeError('@rill/load: Register expire option must be a function.')
   }
 
   if (typeof fn !== 'function') {
@@ -54,26 +49,21 @@ function register (opts, fn) {
   _getters[name] = Object.defineProperty(function getter (ctx, args) {
     var key = name + JSON.stringify(args)
     var cache = ctx.session
+    var exists = cache.has(key)
     args = [ctx].concat(args)
-
     return Promise
-      .resolve(expire && expire.apply(opts, args))
-      .then(function checkCache (expired) {
-        var exists = !expired && cache.has(key)
-        return Promise
-          // Check if we can used the cached data or load some new data.
-          .resolve(exists ? cache.get(key) : fn.apply(opts, args))
-          .then(function setLocals (data) {
-            // If this was a new key we cache it.
-            if (!exists) {
-              cache.set(key, data, opts)
-              cache.items[key].name = name
-            }
+      // Check if we can used the cached data or load some new data.
+      .resolve(exists ? cache.get(key) : fn.apply(opts, args))
+      .then(function setLocals (data) {
+        // If this was a new key we cache it.
+        if (!exists) {
+          cache.set(key, data, opts)
+          cache.items[key].opts = opts
+        }
 
-            // Store data on locals for middleware access.
-            ctx.locals[name] = data
-            return data
-          })
+        // Store data on locals for middleware access.
+        ctx.locals[name] = data
+        return data
       })
   }, 'name', { value: name })
 }
