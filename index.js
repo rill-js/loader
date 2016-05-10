@@ -58,7 +58,6 @@ function register (opts, fn) {
         // If this was a new key we cache it.
         if (!exists) {
           cache.set(key, data, opts)
-          cache.items[key].opts = opts
         }
 
         // Store data on locals for middleware access.

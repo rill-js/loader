@@ -1,11 +1,11 @@
 {
   "name": "@rill/loader",
   "description": "Data loading and caching for Rill.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/load/issues",
   "devDependencies": {
-    "@rill/session": "^5.0.1",
+    "@rill/session": "^5.0.2",
     "rill": "^0.6.0",
     "snazzy": "^4.0.0",
     "standard": "^7.0.1",
