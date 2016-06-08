@@ -46,7 +46,8 @@ function register (opts, fn) {
   /**
    * A getter function that will load some data or return it from a cache.
    */
-  _getters[name] = Object.defineProperty(function getter (ctx, args) {
+  _getters[name] = getter
+  function getter (ctx, args) {
     var key = name + JSON.stringify(args)
     var cache = ctx.session
     var exists = cache.has(key)
@@ -64,5 +65,5 @@ function register (opts, fn) {
         ctx.locals[name] = data
         return data
       })
-  }, 'name', { value: name })
+  }
 }
