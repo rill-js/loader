@@ -1,12 +1,36 @@
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![Chat about Rill at https://gitter.im/rill-js/rill](https://badges.gitter.im/rill-js/rill.svg)](https://gitter.im/rill-js/rill?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<h1 align="center">
+  <!-- Logo -->
+  <img src="https://raw.githubusercontent.com/rill-js/rill/master/Rill-Icon.jpg" alt="Rill"/>
+  <br/>
+  @rill/loader
+	<br/>
 
-# Rill Load
+  <!-- Stability -->
+  <a href="https://nodejs.org/api/documentation.html#documentation_stability_index">
+    <img src="https://img.shields.io/badge/stability-stable-brightgreen.svg?style=flat-square" alt="API stability"/>
+  </a>
+  <!-- Standard -->
+  <a href="https://github.com/feross/standard">
+    <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="Standard"/>
+  </a>
+  <!-- NPM version -->
+  <a href="https://npmjs.org/package/@rill/loader">
+    <img src="https://img.shields.io/npm/v/@rill/loader.svg?style=flat-square" alt="NPM version"/>
+  </a>
+  <!-- Downloads -->
+  <a href="https://npmjs.org/package/@rill/loader">
+    <img src="https://img.shields.io/npm/dm/@rill/loader.svg?style=flat-square" alt="Downloads"/>
+  </a>
+  <!-- Gitter Chat -->
+  <a href="https://gitter.im/rill-js/rill">
+    <img src="https://img.shields.io/gitter/room/rill-js/rill.svg?style=flat-square" alt="Gitter Chat"/>
+  </a>
+</h1>
+
 Utility to handle cached data loading in Rill.
 
 # Installation
 
-#### Npm
 ```console
 npm install @rill/loader
 ```
@@ -15,16 +39,16 @@ npm install @rill/loader
 
 #### Load the data in middleware.
 ```js
-const app = rill();
-const loader = require("@rill/loader")
+const app = require('rill')()
+const loader = require('@rill/loader')
 
 app.use(loader())
-app.get("/my-view",
+app.get('/my-view',
 	(ctx, next)=> {
 		// A #load function will be attached to the context.
-		return ctx.load("myStuff", ...).then((myStuff)=> {
+		return ctx.load('myStuff', ...).then((myStuff)=> {
 			// Loaded data cached automatically attached to ctx.locals
-			ctx.locals.myStuff; //-> "data"
+			ctx.locals.myStuff; //-> 'data'
 		})
 	}
 )
@@ -32,11 +56,11 @@ app.get("/my-view",
 
 #### Register a data loader.
 ```js
-const loader = require("@rill/loader")
+const loader = require('@rill/loader')
 
 // Register a loadable item.
 loader.register(
-	{ name: "myStuff", ttl: "30 minutes" },
+	{ name: 'myStuff', ttl: '30 minutes' },
 	(ctx, ...)=> {
 	    // Return any promise of data and it will be cached.
 	    return myApi.fetchMyStuff();
@@ -68,8 +92,8 @@ This function will be cached and automatically set it's data on `ctx.locals` whe
 
 	// An optional function that can return true (or a promise that resolves to true) to delete the cached data.
 	expire: (ctx, ...)=> {
-		this; //-> The `this` will be the options object.
-		return myApi.checkIfStale(ctx.req.params.id);
+		this //-> The `this` will be the options object.
+		return myApi.checkIfStale(ctx.req.params.id)
 	}
 }
 ```
