@@ -1,7 +1,10 @@
 'use strict'
 
+var Receptacle = require('receptacle')
+var NAMESPACE = 'loader_'
 var _getters = {}
 var slice = Array.prototype.slice
+var shared = new Receptacle()
 
 module.exports = loader
 module.exports.register = register
@@ -13,7 +16,7 @@ function loader (opts) {
   return function loaderMiddleware (ctx, next) {
     ctx.assert(ctx.session, 500, 'A session is required to use @rill/load.')
     ctx.load = function load (name) {
-      ctx.assert(_getters[name], 500, '@rill/load: Could not load getter [' + name + ']')
+      ctx.assert(_getters[name], 500, '@rill/load: Could not load [' + name + ']')
       return _getters[name](ctx, slice.call(arguments, 1))
     }
 
@@ -48,8 +51,8 @@ function register (opts, fn) {
    */
   _getters[name] = getter
   function getter (ctx, args) {
-    var key = name + JSON.stringify(args)
-    var cache = ctx.session
+    var key = NAMESPACE + name + JSON.stringify(args)
+    var cache = opts.shared ? shared : ctx.session
     var exists = cache.has(key)
     args = [ctx].concat(args)
     return Promise

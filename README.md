@@ -88,7 +88,10 @@ This function will be cached and automatically set it's data on `ctx.locals` whe
 	ttl: 3000,
 
 	// If true the `ttl` option will be reset every time the data is loaded.
-	refresh: false
+	refresh: false,
+
+  // If shared is set the true then a global cache will be used. (By default is uses the users session)
+  shared: false
 }
 ```
 
