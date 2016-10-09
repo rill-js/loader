@@ -46,6 +46,8 @@ function register (opts, fn) {
     throw new TypeError('@rill/load: Register arguments[1||2] must be a function.')
   }
 
+  var isShared = Boolean(!process.browser && opts.shared)
+
   /**
    * A getter function that will load some data or return it from a cache.
    */
@@ -53,7 +55,7 @@ function register (opts, fn) {
   function getter (ctx, args) {
     var key = NAMESPACE + name + JSON.stringify(args)
     var session = ctx.session
-    var cache = opts.shared ? shared : session
+    var cache = isShared ? shared : session
     var exists = cache.has(key)
     args = [ctx].concat(args)
     return Promise
@@ -65,7 +67,7 @@ function register (opts, fn) {
           cache.set(key, data, opts)
         }
 
-        if (shared && !session.has(key)) {
+        if (isShared && session.get(key) !== data) {
           session.set(key, data, {
             meta: opts.meta,
             refresh: opts.refresh,
