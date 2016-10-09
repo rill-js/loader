@@ -52,7 +52,8 @@ function register (opts, fn) {
   _getters[name] = getter
   function getter (ctx, args) {
     var key = NAMESPACE + name + JSON.stringify(args)
-    var cache = opts.shared ? shared : ctx.session
+    var session = ctx.session
+    var cache = opts.shared ? shared : session
     var exists = cache.has(key)
     args = [ctx].concat(args)
     return Promise
@@ -64,10 +65,10 @@ function register (opts, fn) {
           cache.set(key, data, opts)
         }
 
-        if (shared && !ctx.session.has(key)) {
-          ctx.session.set(key, data, {
-            refresh: opts.refresh,
+        if (shared && !session.has(key)) {
+          session.set(key, data, {
             meta: opts.meta,
+            refresh: opts.refresh,
             ttl: opts && opts.ttl && cache.items[key].expires - new Date()
           })
         }
