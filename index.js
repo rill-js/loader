@@ -64,6 +64,14 @@ function register (opts, fn) {
           cache.set(key, data, opts)
         }
 
+        if (shared && !ctx.session.has(key)) {
+          ctx.session.set(key, data, {
+            refresh: opts.refresh,
+            meta: opts.meta,
+            ttl: opts && opts.ttl && cache.items[key].expires - new Date()
+          })
+        }
+
         // Store data on locals for middleware access.
         ctx.locals[name] = data
         return data
