@@ -71,7 +71,7 @@ function register (opts, fn) {
           session.set(key, data, {
             meta: opts.meta,
             refresh: opts.refresh,
-            ttl: opts && opts.ttl && cache.items[key].expires - new Date()
+            ttl: opts.ttl && cache.items[key].expires - new Date()
           })
         }
 

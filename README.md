@@ -90,8 +90,8 @@ This function will be cached and automatically set it's data on `ctx.locals` whe
 	// If true the `ttl` option will be reset every time the data is loaded.
 	refresh: false,
 
-  // If shared is set the true then a global cache will be used on the server side. (By default is uses the users session).
-  shared: false
+	// If shared is set the true then a global cache will be used on the server side. (By default is uses the users session).
+	shared: false
 }
 ```
 
