@@ -38,6 +38,6 @@
     "test": "standard --verbose | snazzy && tape ./test/**/*.test.js | tap-spec"
   },
   "dependencies": {
-    "receptacle": "^1.0.1"
+    "receptacle": "^1.0.2"
   }
 }
