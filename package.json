@@ -5,10 +5,10 @@
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/load/issues",
   "devDependencies": {
-    "@rill/session": "^6.0.0",
+    "@rill/session": "^6.0.1",
     "rill": "^2.3.2",
     "snazzy": "^5.0.0",
-    "standard": "^8.3.0",
+    "standard": "^8.4.0",
     "supertest": "^2.0.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2"
@@ -38,6 +38,6 @@
     "test": "standard --verbose | snazzy && tape ./test/**/*.test.js | tap-spec"
   },
   "dependencies": {
-    "receptacle": "^1.0.0"
+    "receptacle": "^1.0.1"
   }
 }
