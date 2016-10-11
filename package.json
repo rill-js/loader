@@ -1,7 +1,7 @@
 {
   "name": "@rill/loader",
   "description": "Data loading and caching for Rill.",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/load/issues",
   "devDependencies": {
