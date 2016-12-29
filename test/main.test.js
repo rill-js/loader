@@ -95,7 +95,7 @@ test('clears expired ttl data', function (t) {
             t.equals(calls, 2, 'fetched from getter again')
             t.equals(res.text, 'hello world', 'loaded data from getter')
           }, t.fail)
-      }, 101)
+      }, 200)
     }, t.fail)
 })
 

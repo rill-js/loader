@@ -1,7 +1,8 @@
 'use strict'
 
 var Receptacle = require('receptacle')
-var NAMESPACE = 'loader_'
+var hash = require('hash-sum')
+var NAMESPACE = '@rill/loader/'
 var _getters = {}
 var slice = Array.prototype.slice
 var shared = new Receptacle()
@@ -36,9 +37,7 @@ function register (opts, fn) {
     throw new TypeError('@rill/load: Register arguments[0] must be an options object.')
   }
 
-  var name = opts.name
-
-  if (typeof name !== 'string') {
+  if (typeof opts.name !== 'string') {
     throw new TypeError('@rill/load: Register options must have a name property.')
   }
 
@@ -46,6 +45,10 @@ function register (opts, fn) {
     throw new TypeError('@rill/load: Register arguments[1||2] must be a function.')
   }
 
+  // Extract options.
+  var name = opts.name
+
+  // Enabled shared mode only server side.
   var isShared = Boolean(!process.browser && opts.shared)
 
   /**
@@ -53,11 +56,12 @@ function register (opts, fn) {
    */
   _getters[name] = getter
   function getter (ctx, args) {
-    var key = NAMESPACE + name + JSON.stringify(args)
+    var key = NAMESPACE + name + '/' + hash(args)
     var session = ctx.session
     var cache = isShared ? shared : session
     var exists = cache.has(key)
     args = [ctx].concat(args)
+
     return Promise
       // Check if we can used the cached data or load some new data.
       .resolve(exists ? cache.get(key) : fn.apply(opts, args))
@@ -67,6 +71,7 @@ function register (opts, fn) {
           cache.set(key, data, opts)
         }
 
+        // Check if the global cache needs updating.
         if (isShared && session.get(key) !== data) {
           session.set(key, data, {
             meta: opts.meta,
