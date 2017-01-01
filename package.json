@@ -1,7 +1,7 @@
 {
   "name": "@rill/loader",
   "description": "Data loading and caching for Rill.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/load/issues",
   "devDependencies": {
@@ -39,7 +39,6 @@
   },
   "dependencies": {
     "@rill/session": "^7.2.2",
-    "hash-sum": "^1.0.2",
     "receptacle": "^1.0.5"
   }
 }

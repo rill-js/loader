@@ -1,7 +1,6 @@
 'use strict'
 
 var Receptacle = require('receptacle')
-var hash = require('hash-sum')
 var NAMESPACE = '@rill/loader/'
 var _getters = {}
 var slice = Array.prototype.slice
@@ -56,7 +55,7 @@ function register (opts, fn) {
    */
   _getters[name] = getter
   function getter (ctx, args) {
-    var key = NAMESPACE + name + '/' + hash(args)
+    var key = NAMESPACE + name + '/' + JSON.stringify(args)
     var session = ctx.session
     var cache = isShared ? shared : session
     var exists = cache.has(key)
